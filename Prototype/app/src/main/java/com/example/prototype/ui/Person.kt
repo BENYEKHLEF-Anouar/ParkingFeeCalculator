@@ -1,4 +1,4 @@
 package com.example.prototype.ui
 
 
-data class Person(val name: String) // data class
+data class Person(val name: String)

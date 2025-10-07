@@ -19,3 +19,5 @@ This is a small Android application built with Jetpack Compose to demonstrate fu
 - **Material 3**: The design system used for styling components like `TextField`, `Button`, and `Icon`.
 - **Android Studio**: The official IDE for Android development.
 
+<!-- ----------------------------------- -->
+
