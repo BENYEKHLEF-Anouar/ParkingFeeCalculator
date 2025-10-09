@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-
 var Persons = mutableStateListOf<Person>()
 
 @Composable
@@ -59,8 +58,15 @@ fun FirstNameScreen() {
             )
             Button(
                 onClick = {
-                    if (text.isNotBlank()) {
-                        Persons.add(Person(text))
+                    val cleaned = text.trim().replaceFirstChar { it.uppercase() }
+                    if (cleaned.isNotBlank()) {
+
+                        var newName = cleaned
+                        while (Persons.any { it.name == newName }) {
+                            newName += "+"
+                        }
+
+                        Persons.add(Person(newName))
                         text = ""
                     }
                 },
@@ -89,6 +95,15 @@ fun FirstNameScreen() {
             )
 
         }
+
+//        for (p in Persons) {
+//            if (Persons.contains(p))
+//                Text(
+//                    text = "👤 ${p.name} 2",
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    modifier = Modifier.padding(8.dp)
+//                )
+//        }
 
 
     }

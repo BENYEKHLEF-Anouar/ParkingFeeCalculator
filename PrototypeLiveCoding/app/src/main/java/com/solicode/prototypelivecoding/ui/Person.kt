@@ -1,3 +1,3 @@
 package com.solicode.prototypelivecoding.ui
 
-data class Person (val name: String)
+data class Person(val name: String)
