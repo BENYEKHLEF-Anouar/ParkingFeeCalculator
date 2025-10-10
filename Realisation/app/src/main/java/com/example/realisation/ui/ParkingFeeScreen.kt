@@ -1,19 +1,17 @@
 package com.example.realisation.ui
 
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.realisation.data.*
 
 @Composable
 fun ParkingFeeScreen() {
     var startText by remember { mutableStateOf("") }
     var endText by remember { mutableStateOf("") }
-    var selectedMode by remember { mutableStateOf(RoundingMode.Proportional) }
+    var selectedMode by remember { mutableStateOf(RoundingMode.Proportionnel) }
     var currentResult by remember { mutableStateOf<CalculationResult?>(null) }
 
     Column(
@@ -22,10 +20,17 @@ fun ParkingFeeScreen() {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Title
+        Text(
+            "ParkingFee — Tarif par tranches horaires",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
         // Input for start time
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Début : ", style = MaterialTheme.typography.bodyLarge)
-            TextField(
+            OutlinedTextField(
                 value = startText,
                 onValueChange = { startText = it },
                 label = { Text("HH:MM") },
@@ -36,7 +41,7 @@ fun ParkingFeeScreen() {
         // Input for end time
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Fin : ", style = MaterialTheme.typography.bodyLarge)
-            TextField(
+            OutlinedTextField(
                 value = endText,
                 onValueChange = { endText = it },
                 label = { Text("HH:MM") },
@@ -56,7 +61,12 @@ fun ParkingFeeScreen() {
                         selected = selectedMode == mode,
                         onClick = { selectedMode = mode }
                     )
-                    Text(mode.name)
+                    Text(
+                        when (mode) {
+                            RoundingMode.Proportionnel -> "Proportionnel"
+                            RoundingMode.HeureEntamee -> "Heure entamée"
+                        }
+                    )
                 }
             }
         }
@@ -93,12 +103,14 @@ fun ParkingFeeScreen() {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     result.usages.forEach { usage ->
+                        val formattedCost = "%.2f".format(usage.cost).replace('.', ',')
                         Text(
-                            "${usage.slotLabel}: ${usage.minutes} min → ${"%.2f".format(usage.cost)} MAD"
+                            "${usage.slotLabel}: ${usage.minutes} min → $formattedCost MAD"
                         )
                     }
+                    val formattedTotal = "%.2f".format(result.totalCost).replace('.', ',')
                     Text(
-                        "Total: ${"%.2f".format(result.totalCost)} MAD",
+                        "Total: $formattedTotal MAD",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -118,8 +130,13 @@ fun ParkingFeeScreen() {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     history.reversed().forEachIndexed { index, item ->
+                        val modeDisplay = when (item.mode) {
+                            RoundingMode.Proportionnel -> "Proportionnel"
+                            RoundingMode.HeureEntamee -> "Heure entamée"
+                        }
+                        val formattedTotal = "%.2f".format(item.total).replace('.', ',')
                         Text(
-                            "${index + 1}. ${item.startTime} - ${item.endTime} (${item.mode.name}) : ${"%.2f".format(item.total)} MAD"
+                            "${index + 1}. ${item.startTime} - ${item.endTime} ($modeDisplay) : $formattedTotal MAD"
                         )
                     }
                 }
