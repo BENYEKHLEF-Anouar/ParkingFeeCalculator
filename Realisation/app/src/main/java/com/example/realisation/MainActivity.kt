@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.realisation.ui.ParkingFeeScreen
 
@@ -18,7 +19,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             Surface(
                 modifier = Modifier.padding(top = 60.dp),
-                color = MaterialTheme.colorScheme.background
+                // color = MaterialTheme.colorScheme.background,
+                color = Color.White
             ) {
                 MaterialTheme {
                     ParkingFeeScreen()
