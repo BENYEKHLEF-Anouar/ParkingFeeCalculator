@@ -37,6 +37,8 @@ val history = mutableStateListOf<HistoryItem>()
  * Parses a time string in "HH:mm" format into total minutes from midnight.
  * @return The total minutes, or null if the format is invalid.
  */
+
+ // Example: "08:30" → 8 * 60 + 30 = 510.
 fun parseTime(timeStr: String): Int? {
     // Check for the correct format "HH:mm" before proceeding
     if (!timeStr.matches(Regex("\\d{2}:\\d{2}"))) return null
